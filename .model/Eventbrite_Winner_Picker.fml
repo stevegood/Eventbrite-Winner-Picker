@@ -8,7 +8,7 @@
     <annotation name="ActionScriptGeneration">
       <item name="ServiceType">HTTPMultiService</item>
       <item name="Package">services.eventbrite</item>
-      <item name="rootURL">https://www.eventbrite.com/json/</item>
+      <item name="rootURL">https://www.eventbrite.com/</item>
     </annotation>
     <annotation name="ServiceTypeGroup">
       <item name="ServiceBackendType">HTTPService</item>
@@ -24,36 +24,39 @@
       <annotation name="ActionScriptGeneration">
         <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
         <item name="method">GET</item>
-        <item name="url">user_list_events</item>
+        <item name="url">json/user_list_events</item>
       </annotation>
       <annotation name="url group">
         <item name="completeURL">https://www.eventbrite.com/json/user_list_events</item>
       </annotation>
       <annotation name="original signature">
+        <item name="returnType">opaque</item>
         <item name="inputParamNames">app_key,user_key</item>
         <item name="inputParams">string,string</item>
-        <item name="returnType">opaque</item>
       </annotation>
     </function>
-    <function name="event_list_attendees" arguments="app_key:string,user_key:string,id:string" return-type="Attendee">
+    <function name="event_list_attendees" arguments="app_key:string,user_key:string,id:string" return-type="Attendee[]">
       <annotation name="analyze group">
         <item name="analyzed">true</item>
       </annotation>
       <annotation name="ActionScriptGeneration">
-        <item name="SerializationFilter">com.adobe.serializers.json.JSONSerializationFilter</item>
+        <item name="SerializationFilter">com.adobe.serializers.xml.XMLSerializationFilter</item>
         <item name="method">GET</item>
-        <item name="url">event_list_attendees</item>
+        <item name="url">xml/event_list_attendees</item>
       </annotation>
       <annotation name="url group">
-        <item name="completeURL">https://www.eventbrite.com/json/event_list_attendees</item>
+        <item name="completeURL">https://www.eventbrite.com/xml/event_list_attendees</item>
       </annotation>
       <annotation name="ValidProperties">
-        <item name="propertySpecifier">attendees</item>
+        <item name="propertySpecifier">amount_paid,barcode,created,currency,email,event_id,first_name,id,last_name,modified,order_id,order_type,quantity,ticket_id</item>
       </annotation>
       <annotation name="original signature">
+        <item name="returnType">opaque</item>
         <item name="inputParamNames">app_key,user_key,id</item>
         <item name="inputParams">string,string,string</item>
-        <item name="returnType">opaque</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="xPath">/::attendee</item>
       </annotation>
     </function>
   </service>
@@ -68,12 +71,26 @@
       <item name="IncludeRemoteClass">nonempty</item>
     </annotation>
     <annotation name="event_list_attendees">
-      <item name="propertySpecifier">attendees</item>
+      <item name="propertySpecifier">amount_paid,barcode,created,currency,email,event_id,first_name,id,last_name,modified,order_id,order_type,quantity,ticket_id</item>
     </annotation>
     <annotation name="ActionScriptGeneration">
       <item name="Package">valueObjects</item>
     </annotation>
     <property name="attendees" type="Attendees[]" required="true"/>
+    <property name="amount_paid" type="string" required="true"/>
+    <property name="barcode" type="string" required="true"/>
+    <property name="created" type="string" required="true"/>
+    <property name="currency" type="string" required="true"/>
+    <property name="email" type="string" required="true"/>
+    <property name="event_id" type="string" required="true"/>
+    <property name="first_name" type="string" required="true"/>
+    <property name="id" type="string" required="true"/>
+    <property name="last_name" type="string" required="true"/>
+    <property name="modified" type="string" required="true"/>
+    <property name="order_id" type="string" required="true"/>
+    <property name="order_type" type="string" required="true"/>
+    <property name="quantity" type="string" required="true"/>
+    <property name="ticket_id" type="string" required="true"/>
   </entity>
   <entity name="Attendees">
     <annotation name="EntityProperties">

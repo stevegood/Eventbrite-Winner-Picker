@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				autoDrawBackground="true" click="itemrenderer1_clickHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+			
+			override public function set data(value:Object):void {
+				super.data = value;
+				
+				if ((itemIndex % 2) == 0) {
+					//rectFill.color = 0x999999;
+				}
+			}
+			
+			protected function itemrenderer1_clickHandler(event:MouseEvent):void
+			{
+				var e:EventbriteEvent = new EventbriteEvent(EventbriteEvent.VIEW_EVENT);
+				e.event_id = data.event.id;
+				dispatchEvent(e);
+			}
+
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+	</fx:Declarations>
+	
+	<s:Group x="0" y="0" width="100%" height="27">
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="middle" />
+		</s:layout>
+		<s:Label id="lbl" x="8" y="8" text="{data.event.title} : {data.event.start_date}-{data.event.end_date}"/>
+	</s:Group>
+	
+</s:ItemRenderer>

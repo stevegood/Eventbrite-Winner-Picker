@@ -2,7 +2,8 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx"
-				autoDrawBackground="true" click="itemrenderer1_clickHandler(event)">
+				autoDrawBackground="true" click="itemrenderer1_clickHandler(event)"
+				toolTip="{data.event.start_date} - {data.event.end_date}">
 
 	<fx:Script>
 		<![CDATA[
@@ -33,7 +34,7 @@
 		<s:layout>
 			<s:HorizontalLayout verticalAlign="middle" />
 		</s:layout>
-		<s:Label id="lbl" x="8" y="8" text="{data.event.title} : {data.event.start_date}-{data.event.end_date}"/>
+		<s:Label id="lbl" x="8" y="8" text="{data.event.title}"/>
 	</s:Group>
 	
 </s:ItemRenderer>

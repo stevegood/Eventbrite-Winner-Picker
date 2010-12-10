@@ -13,23 +13,25 @@ import mx.rpc.http.Operation;
 import valueObjects.Attendee;
 
 import com.adobe.serializers.json.JSONSerializationFilter;
+import com.adobe.serializers.xml.XMLSerializationFilter;
 
 [ExcludeClass]
 internal class _Super_Eventbrite extends com.adobe.fiber.services.wrapper.HTTPServiceWrapper
 {
     private static var serializer0:JSONSerializationFilter = new JSONSerializationFilter();
+    private static var serializer1:XMLSerializationFilter = new XMLSerializationFilter();
 
     // Constructor
     public function _Super_Eventbrite()
     {
         // initialize service control
-        _serviceControl = new mx.rpc.http.HTTPMultiService("https://www.eventbrite.com/json/");
+        _serviceControl = new mx.rpc.http.HTTPMultiService("https://www.eventbrite.com/");
          var operations:Array = new Array();
          var operation:mx.rpc.http.Operation;
          var argsArray:Array;
 
          operation = new mx.rpc.http.Operation(null, "user_list_events");
-         operation.url = "user_list_events";
+         operation.url = "json/user_list_events";
          operation.method = "GET";
          argsArray = new Array("app_key","user_key");
          operation.argumentNames = argsArray;         
@@ -38,12 +40,14 @@ internal class _Super_Eventbrite extends com.adobe.fiber.services.wrapper.HTTPSe
          operations.push(operation);
 
          operation = new mx.rpc.http.Operation(null, "event_list_attendees");
-         operation.url = "event_list_attendees";
+         operation.url = "xml/event_list_attendees";
          operation.method = "GET";
          argsArray = new Array("app_key","user_key","id");
          operation.argumentNames = argsArray;         
-         operation.serializationFilter = serializer0;
-         operation.resultType = valueObjects.Attendee;
+         operation.serializationFilter = serializer1;
+         operation.properties = new Object();
+         operation.properties["xPath"] = "/::attendee";
+         operation.resultElementType = valueObjects.Attendee;
          operations.push(operation);
 
          _serviceControl.operationList = operations;  

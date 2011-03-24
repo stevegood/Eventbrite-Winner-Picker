@@ -3,7 +3,7 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   width="700" height="400" title="Method Labz Winner Picker"
-					   creationComplete="windowedapplication1_creationCompleteHandler(event)">
+					   creationComplete="onCreationComplete(event)">
 	<fx:Script>
 		<![CDATA[
 			import com.adobe.serializers.utility.TypeUtility;
@@ -22,12 +22,42 @@
 			
 			import services.eventbrite.Eventbrite;
 			
-			private var app_key:String = "Y2Y1MjkwODY3NmYz";
-			private var user_key:String = "12426633151316652142";
+			private var app_key:String;
+			private var user_key:String;
 			private var eventbrite:Eventbrite;
 			private var interval:int;
 			[Bindable] private var events:ArrayCollection;
 			[Bindable] private var attendees:ArrayCollection;
+			
+			protected function onCreationComplete(event:FlexEvent):void
+			{
+				//nativeWindow.x = (Capabilities.screenResolutionX / 2)
+				
+				loadSettings();
+				
+				list.addEventListener(EventbriteEvent.VIEW_EVENT,getEvent);
+				
+				eventbrite = new Eventbrite(app_key,user_key);
+				eventbrite.showBusyCursor = true;
+				eventbrite.addEventListener(FaultEvent.FAULT,function(event:FaultEvent):void{
+					Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail);
+				});
+				
+				getEvents();
+			}
+			
+			private function loadSettings():void{
+				//var file:File = new File("/org/stevegood/assets/settings.xml");
+				var file:File = File.applicationDirectory;
+				file = file.resolvePath("org/stevegood/assets/settings.xml");
+				var fs:FileStream = new FileStream();
+				fs.open(file,FileMode.READ);
+				var settingsXML:XML = new XML(fs.readUTFBytes(fs.bytesAvailable));
+				fs.close();
+				app_key = settingsXML.eventbrite.attribute("app_key");
+				user_key = settingsXML.eventbrite.attribute("user_key");
+				trace(false);
+			}
 			
 			protected function user_list_events():void
 			{
@@ -41,22 +71,6 @@
 				eventbrite.addEventListener(ResultEvent.RESULT,getEventListResult);
 				attendees = events = null;
 				user_list_events();
-			}
-
-
-			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
-			{
-				//nativeWindow.x = (Capabilities.screenResolutionX / 2)
-				
-				list.addEventListener(EventbriteEvent.VIEW_EVENT,getEvent);
-				
-				eventbrite = new Eventbrite(app_key,user_key);
-				eventbrite.showBusyCursor = true;
-				eventbrite.addEventListener(FaultEvent.FAULT,function(event:FaultEvent):void{
-					Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail);
-				});
-				
-				getEvents();
 			}
 			
 			protected function getEventListResult(event:ResultEvent):void{

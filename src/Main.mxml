@@ -123,8 +123,8 @@
 			}
 
 
-			protected function button1_clickHandler(event:MouseEvent):void
-			{
+			protected function pickWinnerClickHandler(event:MouseEvent):void
+			{			
 				interval = setInterval(spinAttendees,50);
 				var delay:int = Math.round(Math.random()*10000);
 				if (delay < 2000){
@@ -146,6 +146,9 @@
 						attendeeList.selectedIndex = index;
 					}
 					Alert.show("Congratulations " + attendees[index].first_name + " " + attendees[index].last_name + "!","We Have a Winner!");
+					if (btnRemoveWinners.selected){
+						attendees.removeItemAt(index);
+					}
 				}
 			}
 			
@@ -185,7 +188,8 @@
 			<s:List id="attendeeList" width="100%" height="100%" dataProvider="{attendees}" itemRenderer="AttendeeListItemRenderer" selectionColor="0x00ff00" alternatingItemColors="{[0xffffff,0xCCCCCC]}">
 			</s:List>
 			<s:HGroup width="100%" horizontalAlign="right">
-				<s:Button label="Pick a Winner!" click="button1_clickHandler(event)"/>
+				<s:CheckBox label="Remove Winners" id="btnRemoveWinners" selected="true" />
+				<s:Button label="Pick a Winner!" click="pickWinnerClickHandler(event)"/>
 			</s:HGroup>
 			
 		</s:VGroup>
